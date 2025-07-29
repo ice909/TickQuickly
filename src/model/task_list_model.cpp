@@ -1,5 +1,7 @@
 #include "task_list_model.h"
 
+#include <QUuid>
+
 TaskListModel::TaskListModel(QObject *parent) : QAbstractListModel(parent) {
     // 示例数据
     Task task1;
@@ -79,7 +81,7 @@ QHash<int, QByteArray> TaskListModel::roleNames() const {
 void TaskListModel::addTask(const QString &title) {
     beginInsertRows(QModelIndex(), m_tasks.size(), m_tasks.size());
     Task newTask;
-    newTask.id = QString::number(m_tasks.size() + 1);
+    newTask.id = QUuid::createUuid().toString(QUuid::WithoutBraces);
     newTask.title = title;
     m_tasks.append(newTask);
     endInsertRows();

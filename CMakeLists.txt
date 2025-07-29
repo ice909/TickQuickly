@@ -5,6 +5,7 @@ project(TickQuickly VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Quick)
+find_package(GTest REQUIRED)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
@@ -41,6 +42,16 @@ set_target_properties(appTickQuickly PROPERTIES
 target_link_libraries(appTickQuickly
     PRIVATE Qt6::Quick
 )
+
+enable_testing()
+add_executable(test_task_list_model
+    tests/test_task_list_model.cpp
+    src/model/task_list_model.cpp
+)
+target_include_directories(test_task_list_model PRIVATE src/model)
+target_link_libraries(test_task_list_model GTest::gtest_main Qt6::Core)
+
+add_test(NAME test_task_list_model COMMAND test_task_list_model)
 
 include(GNUInstallDirs)
 install(TARGETS appTickQuickly

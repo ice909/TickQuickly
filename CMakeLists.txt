@@ -10,20 +10,28 @@ qt_standard_project_setup(REQUIRES 6.8)
 
 qt_add_executable(appTickQuickly
     main.cpp
+    src/model/task_list_model.cpp
+)
+
+target_include_directories(appTickQuickly
+    PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/model
 )
 
 qt_add_qml_module(appTickQuickly
     URI TickQuickly
     VERSION 1.0
     QML_FILES
-        ./qml/Main.qml
+    ./qml/Main.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
 set_target_properties(appTickQuickly PROPERTIES
-#    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.appTickQuickly
+
+    # MACOSX_BUNDLE_GUI_IDENTIFIER com.example.appTickQuickly
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE

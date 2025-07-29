@@ -1,6 +1,8 @@
 #pragma once
-#include "task.h"
 #include <QAbstractListModel>
+
+#include "task.h"
+#include "task_storage.h"
 
 class TaskListModel : public QAbstractListModel {
     Q_OBJECT
@@ -23,7 +25,7 @@ class TaskListModel : public QAbstractListModel {
     };
     Q_ENUM(Role)
 
-    explicit TaskListModel(QObject *parent = nullptr);
+    explicit TaskListModel(TaskStorage &storage, QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index,
@@ -36,5 +38,6 @@ class TaskListModel : public QAbstractListModel {
     // 可扩展更多Q_INVOKABLE接口
 
   private:
+    TaskStorage &m_storage;
     QList<Task> m_tasks;
 };

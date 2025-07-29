@@ -2,7 +2,10 @@
 
 #include <QUuid>
 
-TaskListModel::TaskListModel(QObject *parent) : QAbstractListModel(parent) {}
+TaskListModel::TaskListModel(TaskStorage &storage, QObject *parent)
+    : QAbstractListModel(parent), m_storage(storage) {
+    m_tasks = m_storage.loadTasks();
+}
 
 int TaskListModel::rowCount(const QModelIndex &parent) const {
     Q_UNUSED(parent)
@@ -72,4 +75,5 @@ void TaskListModel::addTask(const QString &title) {
     newTask.title = title;
     m_tasks.append(newTask);
     endInsertRows();
+    m_storage.saveTasks(m_tasks);
 }

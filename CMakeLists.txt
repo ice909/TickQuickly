@@ -9,15 +9,25 @@ find_package(GTest REQUIRED)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
+set(SOURCES
+    src/model/task_list_model.cpp
+    src/storage/local_json_task_storage.cpp
+)
+
+set(HEADER_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/model
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/storage
+)
+
 qt_add_executable(appTickQuickly
     main.cpp
-    src/model/task_list_model.cpp
+    ${SOURCES}
 )
 
 target_include_directories(appTickQuickly
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/model
+    ${HEADER_DIRS}
 )
 
 qt_add_qml_module(appTickQuickly
@@ -46,9 +56,10 @@ target_link_libraries(appTickQuickly
 enable_testing()
 add_executable(test_task_list_model
     tests/test_task_list_model.cpp
-    src/model/task_list_model.cpp
+    ${SOURCES}
 )
-target_include_directories(test_task_list_model PRIVATE src/model)
+
+target_include_directories(test_task_list_model PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src ${HEADER_DIRS})
 target_link_libraries(test_task_list_model GTest::gtest_main Qt6::Core)
 
 add_test(NAME test_task_list_model COMMAND test_task_list_model)

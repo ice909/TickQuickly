@@ -2,20 +2,7 @@
 
 #include <QUuid>
 
-TaskListModel::TaskListModel(QObject *parent) : QAbstractListModel(parent) {
-    // 示例数据
-    Task task1;
-    task1.id = "1";
-    task1.title = "写日报";
-    task1.status = 0;
-    m_tasks << task1;
-
-    Task task2;
-    task2.id = "2";
-    task2.title = "买牛奶";
-    task2.status = 0;
-    m_tasks << task2;
-}
+TaskListModel::TaskListModel(QObject *parent) : QAbstractListModel(parent) {}
 
 int TaskListModel::rowCount(const QModelIndex &parent) const {
     Q_UNUSED(parent)

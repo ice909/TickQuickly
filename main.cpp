@@ -4,8 +4,7 @@
 
 #include "task_list_model.h"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
 
     TaskListModel taskModel;

@@ -1,0 +1,692 @@
+openapi: 3.0.3
+info:
+  title: Elysia Documentation
+  description: Development documentation
+  version: 0.0.0
+paths:
+  /tasks:
+    get:
+      operationId: getTasks
+      description: 获取全部任务
+      responses:
+        "200":
+          description: 全部任务数据
+    post:
+      parameters: []
+      operationId: postTasks
+      description: 新建任务
+      responses:
+        "200":
+          description: 新建任务成功
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  description: 待办ID
+                  type: string
+                title:
+                  description: 待办标题
+                  type: string
+                content:
+                  description: 待办内容
+                  type: string
+                projectId:
+                  description: 项目ID
+                  type: string
+                parentId:
+                  description: 父级待办ID
+                  type: string
+                status:
+                  description: 待办状态
+                  type: number
+                priority:
+                  description: 待办优先级
+                  type: number
+                progress:
+                  description: 待办进度
+                  type: number
+                creator:
+                  description: 创建者
+                  type: string
+                assignee:
+                  description: 负责人
+                  type: string
+                etag:
+                  description: ETag
+                  type: string
+                kind:
+                  description: 类型
+                  type: string
+                reminder:
+                  description: 提醒
+                  type: string
+                reminders:
+                  type: array
+                  items:
+                    description: 提醒列表
+                    type: string
+                timeZone:
+                  description: 时区
+                  type: string
+                sortOrder:
+                  description: 排序
+                  type: string
+                isAllDay:
+                  description: 是否全天
+                  type: boolean
+                isFloating:
+                  description: 是否浮动
+                  type: boolean
+                deleted:
+                  description: 删除状态
+                  type: number
+                createdTime:
+                  description: 创建时间
+                  type: string
+                modifiedTime:
+                  description: 修改时间
+                  type: string
+                dueDate:
+                  description: 到期时间
+                  type: string
+                startDate:
+                  description: 开始时间
+                  type: string
+                serverDueDate:
+                  description: 服务器到期时间
+                  type: string
+                serverStartDate:
+                  description: 服务器开始时间
+                  type: string
+                childIds:
+                  type: array
+                  items:
+                    description: 子任务ID列表
+                    type: string
+                tags:
+                  type: array
+                  items:
+                    description: 标签列表
+                    type: string
+                exDate:
+                  type: array
+                  items:
+                    description: 例外日期列表
+                    type: string
+                items:
+                  type: array
+                  items:
+                    description: 待办事项列表
+                    type: string
+              required:
+                - id
+                - title
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                id:
+                  description: 待办ID
+                  type: string
+                title:
+                  description: 待办标题
+                  type: string
+                content:
+                  description: 待办内容
+                  type: string
+                projectId:
+                  description: 项目ID
+                  type: string
+                parentId:
+                  description: 父级待办ID
+                  type: string
+                status:
+                  description: 待办状态
+                  type: number
+                priority:
+                  description: 待办优先级
+                  type: number
+                progress:
+                  description: 待办进度
+                  type: number
+                creator:
+                  description: 创建者
+                  type: string
+                assignee:
+                  description: 负责人
+                  type: string
+                etag:
+                  description: ETag
+                  type: string
+                kind:
+                  description: 类型
+                  type: string
+                reminder:
+                  description: 提醒
+                  type: string
+                reminders:
+                  type: array
+                  items:
+                    description: 提醒列表
+                    type: string
+                timeZone:
+                  description: 时区
+                  type: string
+                sortOrder:
+                  description: 排序
+                  type: string
+                isAllDay:
+                  description: 是否全天
+                  type: boolean
+                isFloating:
+                  description: 是否浮动
+                  type: boolean
+                deleted:
+                  description: 删除状态
+                  type: number
+                createdTime:
+                  description: 创建时间
+                  type: string
+                modifiedTime:
+                  description: 修改时间
+                  type: string
+                dueDate:
+                  description: 到期时间
+                  type: string
+                startDate:
+                  description: 开始时间
+                  type: string
+                serverDueDate:
+                  description: 服务器到期时间
+                  type: string
+                serverStartDate:
+                  description: 服务器开始时间
+                  type: string
+                childIds:
+                  type: array
+                  items:
+                    description: 子任务ID列表
+                    type: string
+                tags:
+                  type: array
+                  items:
+                    description: 标签列表
+                    type: string
+                exDate:
+                  type: array
+                  items:
+                    description: 例外日期列表
+                    type: string
+                items:
+                  type: array
+                  items:
+                    description: 待办事项列表
+                    type: string
+              required:
+                - id
+                - title
+          text/plain:
+            schema:
+              type: object
+              properties:
+                id:
+                  description: 待办ID
+                  type: string
+                title:
+                  description: 待办标题
+                  type: string
+                content:
+                  description: 待办内容
+                  type: string
+                projectId:
+                  description: 项目ID
+                  type: string
+                parentId:
+                  description: 父级待办ID
+                  type: string
+                status:
+                  description: 待办状态
+                  type: number
+                priority:
+                  description: 待办优先级
+                  type: number
+                progress:
+                  description: 待办进度
+                  type: number
+                creator:
+                  description: 创建者
+                  type: string
+                assignee:
+                  description: 负责人
+                  type: string
+                etag:
+                  description: ETag
+                  type: string
+                kind:
+                  description: 类型
+                  type: string
+                reminder:
+                  description: 提醒
+                  type: string
+                reminders:
+                  type: array
+                  items:
+                    description: 提醒列表
+                    type: string
+                timeZone:
+                  description: 时区
+                  type: string
+                sortOrder:
+                  description: 排序
+                  type: string
+                isAllDay:
+                  description: 是否全天
+                  type: boolean
+                isFloating:
+                  description: 是否浮动
+                  type: boolean
+                deleted:
+                  description: 删除状态
+                  type: number
+                createdTime:
+                  description: 创建时间
+                  type: string
+                modifiedTime:
+                  description: 修改时间
+                  type: string
+                dueDate:
+                  description: 到期时间
+                  type: string
+                startDate:
+                  description: 开始时间
+                  type: string
+                serverDueDate:
+                  description: 服务器到期时间
+                  type: string
+                serverStartDate:
+                  description: 服务器开始时间
+                  type: string
+                childIds:
+                  type: array
+                  items:
+                    description: 子任务ID列表
+                    type: string
+                tags:
+                  type: array
+                  items:
+                    description: 标签列表
+                    type: string
+                exDate:
+                  type: array
+                  items:
+                    description: 例外日期列表
+                    type: string
+                items:
+                  type: array
+                  items:
+                    description: 待办事项列表
+                    type: string
+              required:
+                - id
+                - title
+    put:
+      parameters: []
+      operationId: putTasks
+      description: 更新任务
+      responses:
+        "200":
+          description: 更新任务成功
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  description: 待办ID
+                  type: string
+                title:
+                  description: 待办标题
+                  type: string
+                content:
+                  description: 待办内容
+                  type: string
+                projectId:
+                  description: 项目ID
+                  type: string
+                parentId:
+                  description: 父级待办ID
+                  type: string
+                status:
+                  description: 待办状态
+                  type: number
+                priority:
+                  description: 待办优先级
+                  type: number
+                progress:
+                  description: 待办进度
+                  type: number
+                creator:
+                  description: 创建者
+                  type: string
+                assignee:
+                  description: 负责人
+                  type: string
+                etag:
+                  description: ETag
+                  type: string
+                kind:
+                  description: 类型
+                  type: string
+                reminder:
+                  description: 提醒
+                  type: string
+                reminders:
+                  type: array
+                  items:
+                    description: 提醒列表
+                    type: string
+                timeZone:
+                  description: 时区
+                  type: string
+                sortOrder:
+                  description: 排序
+                  type: string
+                isAllDay:
+                  description: 是否全天
+                  type: boolean
+                isFloating:
+                  description: 是否浮动
+                  type: boolean
+                deleted:
+                  description: 删除状态
+                  type: number
+                createdTime:
+                  description: 创建时间
+                  type: string
+                modifiedTime:
+                  description: 修改时间
+                  type: string
+                dueDate:
+                  description: 到期时间
+                  type: string
+                startDate:
+                  description: 开始时间
+                  type: string
+                serverDueDate:
+                  description: 服务器到期时间
+                  type: string
+                serverStartDate:
+                  description: 服务器开始时间
+                  type: string
+                childIds:
+                  type: array
+                  items:
+                    description: 子任务ID列表
+                    type: string
+                tags:
+                  type: array
+                  items:
+                    description: 标签列表
+                    type: string
+                exDate:
+                  type: array
+                  items:
+                    description: 例外日期列表
+                    type: string
+                items:
+                  type: array
+                  items:
+                    description: 待办事项列表
+                    type: string
+              required:
+                - id
+                - title
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                id:
+                  description: 待办ID
+                  type: string
+                title:
+                  description: 待办标题
+                  type: string
+                content:
+                  description: 待办内容
+                  type: string
+                projectId:
+                  description: 项目ID
+                  type: string
+                parentId:
+                  description: 父级待办ID
+                  type: string
+                status:
+                  description: 待办状态
+                  type: number
+                priority:
+                  description: 待办优先级
+                  type: number
+                progress:
+                  description: 待办进度
+                  type: number
+                creator:
+                  description: 创建者
+                  type: string
+                assignee:
+                  description: 负责人
+                  type: string
+                etag:
+                  description: ETag
+                  type: string
+                kind:
+                  description: 类型
+                  type: string
+                reminder:
+                  description: 提醒
+                  type: string
+                reminders:
+                  type: array
+                  items:
+                    description: 提醒列表
+                    type: string
+                timeZone:
+                  description: 时区
+                  type: string
+                sortOrder:
+                  description: 排序
+                  type: string
+                isAllDay:
+                  description: 是否全天
+                  type: boolean
+                isFloating:
+                  description: 是否浮动
+                  type: boolean
+                deleted:
+                  description: 删除状态
+                  type: number
+                createdTime:
+                  description: 创建时间
+                  type: string
+                modifiedTime:
+                  description: 修改时间
+                  type: string
+                dueDate:
+                  description: 到期时间
+                  type: string
+                startDate:
+                  description: 开始时间
+                  type: string
+                serverDueDate:
+                  description: 服务器到期时间
+                  type: string
+                serverStartDate:
+                  description: 服务器开始时间
+                  type: string
+                childIds:
+                  type: array
+                  items:
+                    description: 子任务ID列表
+                    type: string
+                tags:
+                  type: array
+                  items:
+                    description: 标签列表
+                    type: string
+                exDate:
+                  type: array
+                  items:
+                    description: 例外日期列表
+                    type: string
+                items:
+                  type: array
+                  items:
+                    description: 待办事项列表
+                    type: string
+              required:
+                - id
+                - title
+          text/plain:
+            schema:
+              type: object
+              properties:
+                id:
+                  description: 待办ID
+                  type: string
+                title:
+                  description: 待办标题
+                  type: string
+                content:
+                  description: 待办内容
+                  type: string
+                projectId:
+                  description: 项目ID
+                  type: string
+                parentId:
+                  description: 父级待办ID
+                  type: string
+                status:
+                  description: 待办状态
+                  type: number
+                priority:
+                  description: 待办优先级
+                  type: number
+                progress:
+                  description: 待办进度
+                  type: number
+                creator:
+                  description: 创建者
+                  type: string
+                assignee:
+                  description: 负责人
+                  type: string
+                etag:
+                  description: ETag
+                  type: string
+                kind:
+                  description: 类型
+                  type: string
+                reminder:
+                  description: 提醒
+                  type: string
+                reminders:
+                  type: array
+                  items:
+                    description: 提醒列表
+                    type: string
+                timeZone:
+                  description: 时区
+                  type: string
+                sortOrder:
+                  description: 排序
+                  type: string
+                isAllDay:
+                  description: 是否全天
+                  type: boolean
+                isFloating:
+                  description: 是否浮动
+                  type: boolean
+                deleted:
+                  description: 删除状态
+                  type: number
+                createdTime:
+                  description: 创建时间
+                  type: string
+                modifiedTime:
+                  description: 修改时间
+                  type: string
+                dueDate:
+                  description: 到期时间
+                  type: string
+                startDate:
+                  description: 开始时间
+                  type: string
+                serverDueDate:
+                  description: 服务器到期时间
+                  type: string
+                serverStartDate:
+                  description: 服务器开始时间
+                  type: string
+                childIds:
+                  type: array
+                  items:
+                    description: 子任务ID列表
+                    type: string
+                tags:
+                  type: array
+                  items:
+                    description: 标签列表
+                    type: string
+                exDate:
+                  type: array
+                  items:
+                    description: 例外日期列表
+                    type: string
+                items:
+                  type: array
+                  items:
+                    description: 待办事项列表
+                    type: string
+              required:
+                - id
+                - title
+  /tasks/{id}:
+    get:
+      operationId: getTasksById
+      description: 获取单条任务
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 任务ID
+      responses:
+        "200":
+          description: 单条任务数据
+    delete:
+      operationId: deleteTasksById
+      description: 删除单条任务
+      responses:
+        "200":
+          description: 删除任务成功
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+  /tasks/all:
+    delete:
+      operationId: deleteTasksAll
+      description: 清空所有任务
+      responses:
+        "200":
+          description: 清空任务成功
+components:
+  schemas: {}

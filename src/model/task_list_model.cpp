@@ -27,7 +27,7 @@ QVariant TaskListModel::data(const QModelIndex &index, int role) const {
     case StatusRole:
         return task.status;
     case DueDateRole:
-        return task.dueDate;
+        return task.dueDate.value_or(QString());
     case CreatedTimeRole:
         return task.createdTime;
     case ModifiedTimeRole:

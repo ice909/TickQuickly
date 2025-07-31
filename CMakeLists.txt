@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(TickQuickly VERSION 0.1 LANGUAGES CXX)
+project(tick-quickly VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -19,18 +19,21 @@ set(HEADER_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/storage
 )
 
-qt_add_executable(appTickQuickly
+add_subdirectory(3rdparty/tick-quickly-api/client)
+
+qt_add_executable(${PROJECT_NAME}
     main.cpp
     ${SOURCES}
 )
 
-target_include_directories(appTickQuickly
+target_include_directories(${PROJECT_NAME}
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/tick-quickly-api/client
     ${HEADER_DIRS}
 )
 
-qt_add_qml_module(appTickQuickly
+qt_add_qml_module(${PROJECT_NAME}
     URI TickQuickly
     VERSION 1.0
     QML_FILES
@@ -40,7 +43,7 @@ qt_add_qml_module(appTickQuickly
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
-set_target_properties(appTickQuickly PROPERTIES
+set_target_properties(${PROJECT_NAME} PROPERTIES
 
     # MACOSX_BUNDLE_GUI_IDENTIFIER com.example.appTickQuickly
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
@@ -49,7 +52,7 @@ set_target_properties(appTickQuickly PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-target_link_libraries(appTickQuickly
+target_link_libraries(${PROJECT_NAME}
     PRIVATE Qt6::Quick
 )
 
@@ -65,7 +68,7 @@ target_link_libraries(test_task_list_model GTest::gtest_main Qt6::Core)
 add_test(NAME test_task_list_model COMMAND test_task_list_model)
 
 include(GNUInstallDirs)
-install(TARGETS appTickQuickly
+install(TARGETS ${PROJECT_NAME}
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}

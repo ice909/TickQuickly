@@ -2,42 +2,65 @@
 #include <QAbstractListModel>
 
 #include "task.h"
-#include "task_storage.h"
+#include "storage/task_storage.h"
 
 class TaskListModel : public QAbstractListModel {
     Q_OBJECT
-  public:
+   public:
     enum Role {
+        // 基础信息
         IdRole = Qt::UserRole + 1,
         TitleRole,
         ContentRole,
-        StatusRole,
-        DueDateRole,
-        CreatedTimeRole,
-        ModifiedTimeRole,
-        PriorityRole,
-        IsAllDayRole,
-        IsFloatingRole,
         ProjectIdRole,
         ParentIdRole,
+
+        // 状态信息
+        StatusRole,
+        PriorityRole,
+        ProgressRole,
+        DeletedRole,
+
+        // 人员信息
+        CreatorRole,
+        AssigneeRole,
+
+        // 元数据
+        EtagRole,
+        KindRole,
+        ReminderRole,
+        TimeZoneRole,
+        SortOrderRole,
+        IsAllDayRole,
+        IsFloatingRole,
+
+        // 时间信息
+        CreatedTimeRole,
+        ModifiedTimeRole,
+        DueDateRole,
+        StartDateRole,
+        ServerDueDateRole,
+        ServerStartDateRole,
+
+        // 列表字段
         ChildIdsRole,
-        TagsRole
+        TagsRole,
+        ExDateRole,
+        RemindersRole,
+        ItemsRole
     };
     Q_ENUM(Role)
 
     explicit TaskListModel(TaskStorage &storage, QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index,
-                  int role = Qt::DisplayRole) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
     // 添加任务接口
     Q_INVOKABLE void addTask(const QString &title);
 
-    // 可扩展更多Q_INVOKABLE接口
-
-  private:
+   private:
     TaskStorage &m_storage;
     QList<Task> m_tasks;
 };

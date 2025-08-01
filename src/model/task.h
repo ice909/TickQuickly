@@ -11,7 +11,7 @@ struct Task {
     QString title;
     QString content;
     QString projectId;
-    QString parentId; // 可选，若有父任务
+    QString parentId;  // 可选，若有父任务
     int status = 0;
     int priority = 0;
     int progress = 0;
@@ -26,7 +26,6 @@ struct Task {
     bool isFloating = false;
     int deleted = 0;
 
-    // 时间字段，使用 QString 或 QDateTime，建议用 QString（如原JSON格式）
     QString createdTime;
     QString modifiedTime;
     std::optional<QString> dueDate;
@@ -39,20 +38,18 @@ struct Task {
     QStringList tags;
     QStringList exDate;
     QStringList reminders;
-    QStringList items; // 若 items 是嵌套子任务，建议额外定义 struct
+    QStringList items;
 
-    // 你可以根据需要添加更多字段
-
-    QJsonObject toJson() const {
+    [[nodiscard]] QJsonObject toJson() const {
         QJsonObject obj;
         obj["id"] = id;
         obj["title"] = title;
         obj["content"] = content;
         obj["projectId"] = projectId;
+        obj["parentId"] = parentId;
         obj["status"] = status;
         obj["priority"] = priority;
         obj["progress"] = progress;
-        obj["parentId"] = parentId;
         obj["creator"] = creator;
         obj["assignee"] = assignee;
         obj["etag"] = etag;
@@ -65,17 +62,17 @@ struct Task {
         obj["deleted"] = deleted;
         obj["createdTime"] = createdTime;
         obj["modifiedTime"] = modifiedTime;
-        obj["dueDate"] = dueDate.has_value() ? dueDate.value() : "";
-        obj["startDate"] = startDate.has_value() ? startDate.value() : "";
-        obj["serverDueDate"] =
-            serverDueDate.has_value() ? serverDueDate.value() : "";
-        obj["serverStartDate"] =
-            serverStartDate.has_value() ? serverStartDate.value() : "";
-        obj["childIds"] = QJsonArray::fromStringList(childIds);
-        obj["tags"] = QJsonArray::fromStringList(tags);
-        obj["exDate"] = QJsonArray::fromStringList(exDate);
-        obj["reminders"] = QJsonArray::fromStringList(reminders);
-        obj["items"] = QJsonArray::fromStringList(items);
+        if (dueDate) obj["dueDate"] = *dueDate;
+        if (startDate) obj["startDate"] = *startDate;
+        if (serverDueDate) obj["serverDueDate"] = *serverDueDate;
+        if (serverStartDate) obj["serverStartDate"] = *serverStartDate;
+
+        // 列表字段
+        if (!childIds.isEmpty()) obj["childIds"] = QJsonArray::fromStringList(childIds);
+        if (!tags.isEmpty()) obj["tags"] = QJsonArray::fromStringList(tags);
+        if (!exDate.isEmpty()) obj["exDate"] = QJsonArray::fromStringList(exDate);
+        if (!reminders.isEmpty()) obj["reminders"] = QJsonArray::fromStringList(reminders);
+        if (!items.isEmpty()) obj["items"] = QJsonArray::fromStringList(items);
         return obj;
     }
 };

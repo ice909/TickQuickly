@@ -1,35 +1,88 @@
 {
-    "version": 4,
-    "cmakeMinimumRequired": {
-        "major": 3,
-        "minor": 19,
-        "patch": 0
+  "version": 4,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 19,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "test",
+      "displayName": "Test Build (GCC)",
+      "description": "Configure for testing with GTest (GCC)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/test",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
     },
-    "configurePresets": [
-        {
-            "name": "test",
-            "displayName": "Test Build",
-            "description": "Configure for testing with GTest",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/test",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
-            }
-        }
-    ],
-    "buildPresets": [
-        {
-            "name": "test",
-            "configurePreset": "test"
-        }
-    ],
-    "testPresets": [
-        {
-            "name": "test",
-            "configurePreset": "test",
-            "output": {
-                "outputOnFailure": true
-            }
-        }
-    ]
+    {
+      "name": "dev",
+      "displayName": "Development Build (Clang)",
+      "description": "Preset for clangd with debug info and compile_commands.json",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/dev",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_CXX_FLAGS": "-Qunused-arguments"
+      },
+      "environment": {
+        "CC": "clang",
+        "CXX": "clang++"
+      }
+    },
+    {
+      "name": "clangd",
+      "displayName": "Clangd Optimized Build",
+      "description": "Preset optimized for clangd with full toolchain compatibility",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/clangd",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_CXX_FLAGS": "-Qunused-arguments -mno-omit-leaf-frame-pointer"
+      },
+      "environment": {
+        "CC": "clang",
+        "CXX": "clang++"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "test",
+      "configurePreset": "test"
+    },
+    {
+      "name": "dev",
+      "configurePreset": "dev"
+    },
+    {
+      "name": "clangd",
+      "configurePreset": "clangd",
+      "targets": ["all"],
+      "verbose": true
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "test",
+      "configurePreset": "test",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "dev",
+      "configurePreset": "dev",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
 }

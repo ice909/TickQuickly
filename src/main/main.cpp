@@ -1,10 +1,14 @@
+//
+// Created by ice on 25-8-1.
+//
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QDir>
 
-#include "local_json_task_storage.h"
-#include "task_list_model.h"
+#include "storage/local_json_task_storage.h"
+#include "model/task_list_model.h"
 
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
@@ -20,5 +24,6 @@ int main(int argc, char *argv[]) {
         []() { QCoreApplication::exit(-1); }, Qt::QueuedConnection);
     engine.loadFromModule("TickQuickly", "Main");
 
-    return app.exec();
+    return QGuiApplication::exec();
 }
+

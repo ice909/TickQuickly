@@ -1,5 +1,6 @@
 #pragma once
 #include "task_storage.h"
+#include "model/task.h"
 
 class LocalJsonTaskStorage : public TaskStorage {
   public:

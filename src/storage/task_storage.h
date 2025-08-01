@@ -1,7 +1,7 @@
 #pragma once
 #include <QString>
 #include <QList>
-#include "task.h"
+#include "model/task.h"
 
 class TaskStorage {
   public:

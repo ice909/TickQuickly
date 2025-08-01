@@ -3,42 +3,14 @@ cmake_minimum_required(VERSION 3.16)
 project(tick-quickly VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Quick)
-find_package(GTest REQUIRED)
-
-qt_standard_project_setup(REQUIRES 6.8)
-
-set(SOURCES
-    src/model/task_list_model.cpp
-    src/storage/local_json_task_storage.cpp
-)
-
-set(HEADER_DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/model
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/storage
-)
-
-add_subdirectory(3rdparty/tick-quickly-api/client)
-
-qt_add_executable(${PROJECT_NAME}
-    main.cpp
-    ${SOURCES}
-)
-
-target_include_directories(${PROJECT_NAME}
-    PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/tick-quickly-api/client
-    ${HEADER_DIRS}
-)
-
-qt_add_qml_module(${PROJECT_NAME}
-    URI TickQuickly
-    VERSION 1.0
-    QML_FILES
-    ./qml/Main.qml
-)
+include(GNUInstallDirs)
+add_subdirectory(src)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
@@ -52,24 +24,9 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-target_link_libraries(${PROJECT_NAME}
-    PRIVATE Qt6::Quick
-)
-
-enable_testing()
-add_executable(test_task_list_model
-    tests/test_task_list_model.cpp
-    ${SOURCES}
-)
-
-target_include_directories(test_task_list_model PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src ${HEADER_DIRS})
-target_link_libraries(test_task_list_model GTest::gtest_main Qt6::Core)
-
-add_test(NAME test_task_list_model COMMAND test_task_list_model)
-
-include(GNUInstallDirs)
-install(TARGETS ${PROJECT_NAME}
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
+#
+#install(TARGETS ${PROJECT_NAME}
+#    BUNDLE DESTINATION .
+#    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+#)

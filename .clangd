@@ -1,0 +1,4 @@
+CompileFlags:
+  Add:
+    - "-I/usr/include/qt6"
+    - "-I${workspaceFolder}/3rdparty/tick-quickly-api/client"

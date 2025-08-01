@@ -2,7 +2,7 @@
 #include <QAbstractListModel>
 
 #include "task.h"
-#include "storage/task_storage.h"
+#include "api/api.h"
 
 class TaskListModel : public QAbstractListModel {
     Q_OBJECT
@@ -51,16 +51,16 @@ class TaskListModel : public QAbstractListModel {
     };
     Q_ENUM(Role)
 
-    explicit TaskListModel(TaskStorage &storage, QObject *parent = nullptr);
+    explicit TaskListModel(QObject *parent = nullptr);
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-    QHash<int, QByteArray> roleNames() const override;
+    [[nodiscard]] int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    [[nodiscard]] QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    [[nodiscard]] QHash<int, QByteArray> roleNames() const override;
 
     // 添加任务接口
     Q_INVOKABLE void addTask(const QString &title);
 
    private:
-    TaskStorage &m_storage;
     QList<Task> m_tasks;
+    Api *m_api;
 };

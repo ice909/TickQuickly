@@ -2,15 +2,21 @@
 
 #include <QDebug>
 #include <QUuid>
+#include <utility>
 
-TaskListModel::TaskListModel(TaskStorage &storage, QObject *parent)
-    : QAbstractListModel(parent), m_storage(storage) {
-    m_tasks = m_storage.loadTasks();
+TaskListModel::TaskListModel(QObject *parent)
+    : QAbstractListModel(parent), m_api(new Api(this)) {
+    m_api->fetchTask();
+    connect(m_api, &Api::tasksFetched, this, [this](QList<Task> tasks) {
+        beginResetModel();
+        m_tasks = std::move(tasks);
+        endResetModel();
+    });
 }
 
 int TaskListModel::rowCount(const QModelIndex &parent) const {
     Q_UNUSED(parent)
-    return m_tasks.size();
+    return static_cast<int>(m_tasks.size());
 }
 
 QVariant TaskListModel::data(const QModelIndex &index, int role) const {
@@ -160,6 +166,4 @@ void TaskListModel::addTask(const QString &title) {
 
     m_tasks.append(newTask);
     endInsertRows();
-
-    m_storage.saveTasks(m_tasks);
 }

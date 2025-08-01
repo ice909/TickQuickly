@@ -75,4 +75,31 @@ struct Task {
         if (!items.isEmpty()) obj["items"] = QJsonArray::fromStringList(items);
         return obj;
     }
+    static Task fromJson(QJsonObject obj) {
+        Task task;
+        task.id = obj["id"].toString();
+        task.title = obj["title"].toString();
+        task.content = obj["content"].toString();
+        task.projectId = obj["projectId"].toString();
+        task.parentId = obj["parentId"].toString();
+        task.status = obj["status"].toInt();
+        task.priority = obj["priority"].toInt();
+        task.progress = obj["progress"].toInt();
+        task.creator = obj["creator"].toString();
+        task.assignee = obj["assignee"].toString();
+        task.etag = obj["etag"].toString();
+        task.reminder = obj["reminder"].toString();
+        task.timeZone = obj["timeZone"].toString();
+        task.sortOrder = obj["sortOrder"].toString();
+        task.isAllDay = obj["isAllDay"].toBool();
+        task.isFloating = obj["isFloating"].toBool();
+        task.deleted = obj["deleted"].toInt();
+        task.createdTime = obj["createdTime"].toString();
+        task.modifiedTime = obj["modifiedTime"].toString();
+        task.dueDate = obj["dueDate"].toString();
+        task.startDate = obj["startDate"].toString();
+        task.serverDueDate = obj["serverDueDate"].toString();
+        task.serverStartDate = obj["serverStartDate"].toString();
+        return task;
+    }
 };

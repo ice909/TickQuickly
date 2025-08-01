@@ -7,15 +7,12 @@
 #include <QQmlContext>
 #include <QDir>
 
-#include "storage/local_json_task_storage.h"
 #include "model/task_list_model.h"
 
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
 
-    QString filePath = QDir::homePath() + "/.config/TickQuickly/tasks.json";
-    LocalJsonTaskStorage storage(filePath);
-    TaskListModel taskModel(storage);
+    TaskListModel taskModel;
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("taskModel", &taskModel);
 

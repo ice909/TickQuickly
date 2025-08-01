@@ -6,8 +6,6 @@ file(GLOB SOURCES
         "main/*.cpp"
         "model/*.cpp"
         "model/*.h"
-        "storage/*.cpp"
-        "storage/*.h"
 )
 
 qt_add_executable(${PROJECT_NAME}

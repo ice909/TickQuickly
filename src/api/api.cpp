@@ -1,7 +1,7 @@
 #include "api.h"
+#include <QNetworkReply>
 #include <QJsonArray>
 #include <QJsonDocument>
-#include <QJsonValue>
 
 Api::Api(QObject *parent)
     : QObject(parent)
@@ -11,6 +11,25 @@ Api::Api(QObject *parent)
 // 获取全部任务
 void Api::fetchTask()
 {
+    QNetworkRequest request(QUrl(m_baseUrl + "/tasks"));
+    auto reply = m_manager.get(request);
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+        if (reply->error() == QNetworkReply::NoError) {
+            auto data = reply->readAll();
+            QJsonDocument doc = QJsonDocument::fromJson(data);
+            // 构建QList<Tasks>
+            QJsonArray tasks = doc.array();
+            QList<Task> list;
+            for (auto task : tasks) {
+                QJsonObject obj = task.toObject();
+                list.emplace_back(Task::fromJson(obj));
+            }
+            emit tasksFetched(list);
+        } else {
+            emit errorOccurred(reply->errorString());
+        }
+        reply->deleteLater();
+    });
 }
 
 // 新建任务

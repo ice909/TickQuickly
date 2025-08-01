@@ -7,7 +7,6 @@ find_package(GTest REQUIRED)
 # 依赖的头文件路径
 include_directories(
         ${PROJECT_SOURCE_DIR}/src
-        ${PROJECT_SOURCE_DIR}/3rdparty/tick-quickly-api/client
 )
 
 add_executable(test_task_list_model

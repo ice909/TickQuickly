@@ -17,8 +17,6 @@ int main(int argc, char *argv[]) {
     auto *taskModel = new TaskListModel();
     // 同步管理器
     SyncManager syncManager(taskModel);
-        // 连接数据变更信号到同步管理器
-    QObject::connect(taskModel, &TaskListModel::dirtyDataChanged, &syncManager, &SyncManager::onDirtyDataChanged);
     syncManager.startSync();
 
     QQmlApplicationEngine engine;

@@ -14,6 +14,7 @@ Q_SIGNALS:
     void taskCreated(const CreateTaskResult& result);
     void taskUpdated();
     void taskDeleted();
+    void tasksSynced();
     void errorOccurred(const QString& error);
 
 public:
@@ -28,6 +29,8 @@ public:
     void deleteTask();
     // 清空所有任务
     void clearTasks();
+    // 同步任务
+    void syncTasks(QList<Task>& tasks);
 
 private:
     QNetworkAccessManager m_manager;

@@ -37,7 +37,7 @@ ApplicationWindow {
                         anchors.fill: parent
                         color: inputTask.activeFocus ? "#fff" : "#1919194D"
                         radius: 6
-                        border.color: inputTask.activeFocus ? "#4772FA" : null 
+                        border.color: inputTask.activeFocus ? "#4772FA" : null
                         border.width: inputTask.activeFocus ? 1 : 0
                     }
                 }
@@ -46,9 +46,29 @@ ApplicationWindow {
                     model: taskModel
                     width: parent.width
                     height: parent.height - 80
-                    delegate: Text {
-                        text: model.title
-                        font.pointSize: 16
+                    delegate: Rectangle {
+                        width: parent.width
+                        height: 40
+                        radius: 6
+                        color: mouseArea.containsMouse ? "#1919190a" : "transparent"
+                        RowLayout {
+                            anchors.fill: parent
+                            anchors.leftMargin: 16
+                            anchors.rightMargin: 16     
+                            spacing: 8
+                            Text {
+                                Layout.alignment: Qt.AlignVCenter
+                                text: model.title
+                                font.pointSize: 16
+                                color: "#191919"
+                            }
+                        }
+
+                        MouseArea {
+                            id: mouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                        }
                     }
                 }
             }

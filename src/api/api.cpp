@@ -60,3 +60,32 @@ void Api::deleteTask() {
 // 清空所有任务
 void Api::clearTasks() {
 }
+
+void Api::syncTasks(QList<Task>& tasks) {
+    QNetworkRequest request(QUrl(m_baseUrl + "/tasks/sync"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    auto tasksArr = QJsonArray();
+    for (const auto& task : tasks) {
+        tasksArr.append(task.toJson());
+    }
+    const QJsonObject body = QJsonObject{{"tasks", tasksArr}};
+
+    auto reply = m_manager.post(request, QJsonDocument(body).toJson());
+
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+        if (reply->error() == QNetworkReply::NoError) {
+            const auto data = reply->readAll();
+            const auto doc = QJsonDocument::fromJson(data);
+            QJsonObject obj = doc.object();
+            if (bool success = obj["success"].toBool()) {
+                emit tasksSynced();
+            }else {
+                emit errorOccurred("Sync failed!");
+            }
+        } else {
+            emit errorOccurred(reply->errorString());
+        }
+        reply->deleteLater();
+    });
+}

@@ -14,6 +14,7 @@ enum class SyncStatus {
 };
 
 struct Task {
+    SyncStatus syncStatus = SyncStatus::Clean;
     QString id;
     QString title;
     QString content;
@@ -28,7 +29,7 @@ struct Task {
     QString kind;
     QString reminder;
     QString timeZone;
-    QString sortOrder;
+    int sortOrder;
     bool isAllDay = false;
     bool isFloating = false;
     int deleted = 0;
@@ -98,7 +99,7 @@ struct Task {
         task.etag = obj["etag"].toString();
         task.reminder = obj["reminder"].toString();
         task.timeZone = obj["timeZone"].toString();
-        task.sortOrder = obj["sortOrder"].toString();
+        task.sortOrder = obj["sortOrder"].toInt();
         task.isAllDay = obj["isAllDay"].toBool();
         task.isFloating = obj["isFloating"].toBool();
         task.deleted = obj["deleted"].toInt();

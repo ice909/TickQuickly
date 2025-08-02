@@ -61,6 +61,7 @@ public:
     [[nodiscard]] QHash<int, QByteArray> roleNames() const override;
 
     void setTasks(const QList<Task> &tasks);
+    QList<Task> getDirtyTasks() const;
 
     // 添加任务接口
     Q_INVOKABLE void addTask(const QString& title);

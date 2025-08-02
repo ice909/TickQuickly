@@ -7,6 +7,8 @@
 
 SyncManager::SyncManager(TaskListModel* model, QObject* parent)
     : QObject(parent), m_taskModel(model), m_api(new Api(this)) {
+    QObject::connect(m_taskModel, &TaskListModel::dirtyDataChanged, this,
+                     &SyncManager::onDirtyDataChanged);
 }
 
 void SyncManager::startSync() {
@@ -18,7 +20,17 @@ void SyncManager::startSync() {
 }
 
 void SyncManager::onDirtyDataChanged() {
-    // 处理本地数据变更
-    // 这里可以添加具体的同步逻辑，比如调用API上传数据等
-    qDebug() << "Dirty data changed, syncing...";
+    QList<Task> dirtyTasks = m_taskModel->getDirtyTasks();
+    if (dirtyTasks.isEmpty()) {
+        qDebug() << "No dirty tasks to sync";
+        return;
+    }
+    m_api->syncTasks(dirtyTasks);
+
+    connect(m_api, &Api::tasksSynced, this, [this]() {
+        m_api->fetchTask();
+    });
+    connect(m_api, &Api::tasksFetched, this, [this](const QList<Task>& tasks) {
+        m_taskModel->setTasks(tasks);
+    });
 }

@@ -151,13 +151,24 @@ void TaskListModel::setTasks(const QList<Task>& tasks) {
     endResetModel();
 }
 
+QList<Task> TaskListModel::getDirtyTasks() const {
+    // 返回所有状态为 Dirty 的任务
+    QList<Task> dirtyTasks;
+    for (auto m_task : m_tasks) {
+        if (m_task.syncStatus == SyncStatus::Dirty) {
+            dirtyTasks.append(m_task);
+        }
+    }
+    return dirtyTasks;
+}
+
 void TaskListModel::addTask(const QString& title) {
     if (title.isEmpty()) {
         qWarning() << "Cannot add task with empty title";
         return;
     }
 
-    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    beginInsertRows(QModelIndex(), 0, 0);
 
     Task newTask;
     newTask.id = QUuid::createUuid().toString(QUuid::WithoutBraces);
@@ -165,7 +176,15 @@ void TaskListModel::addTask(const QString& title) {
     newTask.createdTime = QDateTime::currentDateTime().toString(Qt::ISODate);
     newTask.modifiedTime = newTask.createdTime;
 
-    m_tasks.append(newTask);
+    int sortOrder = -2000000000;
+    if (!m_tasks.isEmpty()) {
+        sortOrder = m_tasks.first().sortOrder + 1000;
+    }
+    newTask.sortOrder = sortOrder;
+
+    newTask.syncStatus = SyncStatus::Dirty;
+
+    m_tasks.insert(0, newTask);
     endInsertRows();
 
     emit dirtyDataChanged();

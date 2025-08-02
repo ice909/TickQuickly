@@ -1,5 +1,8 @@
 find_package(Qt6 REQUIRED COMPONENTS Core Quick Network)
 
+qt_policy(SET QTP0001 NEW)
+qt_policy(SET QTP0004 NEW)
+
 file(GLOB SOURCES
         "api/*.cpp"
         "api/*.h"

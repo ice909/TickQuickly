@@ -6,12 +6,19 @@
 #include <QStringList>
 #include <optional>
 
+enum class SyncStatus {
+    Clean, // 已同步
+    Dirty, // 本地有修改，未同步
+    Syncing, // 正在同步
+    Failed // 同步失败
+};
+
 struct Task {
     QString id;
     QString title;
     QString content;
     QString projectId;
-    QString parentId;  // 可选，若有父任务
+    QString parentId; // 可选，若有父任务
     int status = 0;
     int priority = 0;
     int progress = 0;
@@ -75,6 +82,7 @@ struct Task {
         if (!items.isEmpty()) obj["items"] = QJsonArray::fromStringList(items);
         return obj;
     }
+
     static Task fromJson(QJsonObject obj) {
         Task task;
         task.id = obj["id"].toString();

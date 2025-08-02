@@ -4,25 +4,19 @@
 #include <QUuid>
 #include <utility>
 
-TaskListModel::TaskListModel(QObject *parent)
-    : QAbstractListModel(parent), m_api(new Api(this)) {
-    m_api->fetchTask();
-    connect(m_api, &Api::tasksFetched, this, [this](QList<Task> tasks) {
-        beginResetModel();
-        m_tasks = std::move(tasks);
-        endResetModel();
-    });
+TaskListModel::TaskListModel(QObject* parent)
+    : QAbstractListModel(parent) {
 }
 
-int TaskListModel::rowCount(const QModelIndex &parent) const {
+int TaskListModel::rowCount(const QModelIndex& parent) const {
     Q_UNUSED(parent)
     return static_cast<int>(m_tasks.size());
 }
 
-QVariant TaskListModel::data(const QModelIndex &index, int role) const {
+QVariant TaskListModel::data(const QModelIndex& index, int role) const {
     if (!checkIndex(index)) return {};
 
-    const Task &task = m_tasks.at(index.row());
+    const Task& task = m_tasks.at(index.row());
 
     try {
         switch (role) {
@@ -100,57 +94,64 @@ QVariant TaskListModel::data(const QModelIndex &index, int role) const {
                 qWarning() << "Unknown role requested:" << role;
                 return {};
         }
-    } catch (const std::exception &e) {
+    } catch (const std::exception& e) {
         qCritical() << "Error accessing task data:" << e.what();
         return {};
     }
 }
 
 QHash<int, QByteArray> TaskListModel::roleNames() const {
-    static const QHash<int, QByteArray> roles = {// 基础信息
-                                                 {IdRole, "id"},
-                                                 {TitleRole, "title"},
-                                                 {ContentRole, "content"},
-                                                 {ProjectIdRole, "projectId"},
-                                                 {ParentIdRole, "parentId"},
+    static const QHash<int, QByteArray> roles = {
+        // 基础信息
+        {IdRole, "id"},
+        {TitleRole, "title"},
+        {ContentRole, "content"},
+        {ProjectIdRole, "projectId"},
+        {ParentIdRole, "parentId"},
 
-                                                 // 状态信息
-                                                 {StatusRole, "status"},
-                                                 {PriorityRole, "priority"},
-                                                 {ProgressRole, "progress"},
-                                                 {DeletedRole, "deleted"},
+        // 状态信息
+        {StatusRole, "status"},
+        {PriorityRole, "priority"},
+        {ProgressRole, "progress"},
+        {DeletedRole, "deleted"},
 
-                                                 // 人员信息
-                                                 {CreatorRole, "creator"},
-                                                 {AssigneeRole, "assignee"},
+        // 人员信息
+        {CreatorRole, "creator"},
+        {AssigneeRole, "assignee"},
 
-                                                 // 元数据
-                                                 {EtagRole, "etag"},
-                                                 {KindRole, "kind"},
-                                                 {ReminderRole, "reminder"},
-                                                 {TimeZoneRole, "timeZone"},
-                                                 {SortOrderRole, "sortOrder"},
-                                                 {IsAllDayRole, "isAllDay"},
-                                                 {IsFloatingRole, "isFloating"},
+        // 元数据
+        {EtagRole, "etag"},
+        {KindRole, "kind"},
+        {ReminderRole, "reminder"},
+        {TimeZoneRole, "timeZone"},
+        {SortOrderRole, "sortOrder"},
+        {IsAllDayRole, "isAllDay"},
+        {IsFloatingRole, "isFloating"},
 
-                                                 // 时间信息
-                                                 {CreatedTimeRole, "createdTime"},
-                                                 {ModifiedTimeRole, "modifiedTime"},
-                                                 {DueDateRole, "dueDate"},
-                                                 {StartDateRole, "startDate"},
-                                                 {ServerDueDateRole, "serverDueDate"},
-                                                 {ServerStartDateRole, "serverStartDate"},
+        // 时间信息
+        {CreatedTimeRole, "createdTime"},
+        {ModifiedTimeRole, "modifiedTime"},
+        {DueDateRole, "dueDate"},
+        {StartDateRole, "startDate"},
+        {ServerDueDateRole, "serverDueDate"},
+        {ServerStartDateRole, "serverStartDate"},
 
-                                                 // 列表字段
-                                                 {ChildIdsRole, "childIds"},
-                                                 {TagsRole, "tags"},
-                                                 {ExDateRole, "exDate"},
-                                                 {RemindersRole, "reminders"},
-                                                 {ItemsRole, "items"}};
+        // 列表字段
+        {ChildIdsRole, "childIds"},
+        {TagsRole, "tags"},
+        {ExDateRole, "exDate"},
+        {RemindersRole, "reminders"},
+        {ItemsRole, "items"}};
     return roles;
 }
 
-void TaskListModel::addTask(const QString &title) {
+void TaskListModel::setTasks(const QList<Task>& tasks) {
+    beginResetModel();
+    m_tasks = tasks;
+    endResetModel();
+}
+
+void TaskListModel::addTask(const QString& title) {
     if (title.isEmpty()) {
         qWarning() << "Cannot add task with empty title";
         return;
@@ -166,4 +167,6 @@ void TaskListModel::addTask(const QString &title) {
 
     m_tasks.append(newTask);
     endInsertRows();
+
+    emit dirtyDataChanged();
 }

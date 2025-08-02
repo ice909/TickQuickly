@@ -4,13 +4,14 @@
 #include <QNetworkAccessManager>
 #include <QObject>
 #include "model/task.h"
+#include "response.h"
 
 class Api final : public QObject {
     Q_OBJECT
 
 Q_SIGNALS:
     void tasksFetched(const QList<Task>& tasks);
-    void taskCreated();
+    void taskCreated(const CreateTaskResult& result);
     void taskUpdated();
     void taskDeleted();
     void errorOccurred(const QString& error);
@@ -20,7 +21,7 @@ public:
     // 获取全部任务
     void fetchTask();
     // 新建任务
-    void createTask();
+    void createTask(Task &task);
     // 更新任务
     void updateTask();
     // 删除单条任务

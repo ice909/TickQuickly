@@ -9,6 +9,8 @@ file(GLOB SOURCES
         "main/*.cpp"
         "model/*.cpp"
         "model/*.h"
+        "sync/*.cpp"
+        "sync/*.h"
 )
 
 qt_add_executable(${PROJECT_NAME}

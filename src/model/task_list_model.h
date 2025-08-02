@@ -6,7 +6,8 @@
 
 class TaskListModel : public QAbstractListModel {
     Q_OBJECT
-   public:
+
+public:
     enum Role {
         // 基础信息
         IdRole = Qt::UserRole + 1,
@@ -49,18 +50,23 @@ class TaskListModel : public QAbstractListModel {
         RemindersRole,
         ItemsRole
     };
+
     Q_ENUM(Role)
 
-    explicit TaskListModel(QObject *parent = nullptr);
+    explicit TaskListModel(QObject* parent = nullptr);
 
-    [[nodiscard]] int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    [[nodiscard]] QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    [[nodiscard]] int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    [[nodiscard]] QVariant
+    data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     [[nodiscard]] QHash<int, QByteArray> roleNames() const override;
 
-    // 添加任务接口
-    Q_INVOKABLE void addTask(const QString &title);
+    void setTasks(const QList<Task> &tasks);
 
-   private:
+    // 添加任务接口
+    Q_INVOKABLE void addTask(const QString& title);
+signals:
+    void dirtyDataChanged();
+
+private:
     QList<Task> m_tasks;
-    Api *m_api;
 };

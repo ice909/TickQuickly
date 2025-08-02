@@ -1,0 +1,13 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --background: #ffffff;
+  --border: rgba(0, 0, 0, 0.1);
+  --foreground: oklch(0.145 0 0);
+  --muted: #ececf0;
+  --muted-foreground: #717182;
+}

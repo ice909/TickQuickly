@@ -1,10 +1,15 @@
+import { TaskDetail } from "./components/TaskDetail"
+import { TaskList } from "./components/TaskList"
 
 
 function App() {
 
   return (
     <>
-      <div className="text-30px">11111</div>
+      <div className="h-screen flex bg-background">
+        <TaskList />
+        <TaskDetail />
+      </div>
     </>
   )
 }

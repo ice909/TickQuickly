@@ -54,7 +54,7 @@ ApplicationWindow {
                         RowLayout {
                             anchors.fill: parent
                             anchors.leftMargin: 16
-                            anchors.rightMargin: 16     
+                            anchors.rightMargin: 16
                             spacing: 8
                             Text {
                                 Layout.alignment: Qt.AlignVCenter

@@ -6,12 +6,15 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QDir>
+#include <QIcon>
 
 #include "model/task_list_model.h"
 #include "sync/sync_manager.h"
 
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
+    app.setApplicationName("tick-quickly");
+    app.setWindowIcon(QIcon::fromTheme("tick-quickly"));
 
     // 待办清单数据模型
     auto *taskModel = new TaskListModel();

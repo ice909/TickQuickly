@@ -2,6 +2,7 @@ import { useTaskStore } from '@/store/task';
 import { TaskItem } from './TaskItem';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { AnimatePresence } from 'framer-motion';
+import { CreateTask } from './CreateTask';
 
 export function TaskList() {
   const { tasks } = useTaskStore();
@@ -16,8 +17,9 @@ export function TaskList() {
           {todoTasks.length} 个待完成任务, {completedTasks.length} 个已完成
         </p>
       </div>
-      {/* 滚动区域 */}
+      <CreateTask />
       <ScrollArea className="flex-1 overflow-hidden">
+        
         <div>
           <AnimatePresence>
             {todoTasks.map((task) => (

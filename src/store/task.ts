@@ -1,6 +1,17 @@
 import { create } from "zustand";
 
-export const useTaskStore = create(() => ({
+export interface Task {
+  id: number;
+  title: string;
+  completed: boolean;
+}
+
+interface TaskStore {
+  tasks: Task[];
+  toggleTaskCompleted: (id: number) => void;
+}
+
+export const useTaskStore = create<TaskStore>((set) => ({
   tasks: [
     { id: 1, title: "Sample Task", completed: false },
     { id: 2, title: "Another Task", completed: false },
@@ -22,5 +33,12 @@ export const useTaskStore = create(() => ({
     { id: 18, title: "Task Eighteen", completed: false },
     { id: 19, title: "Task Nineteen", completed: true },
     { id: 20, title: "Task Twenty", completed: false }
-  ]
+  ],
+  //切换任务完成状态
+  toggleTaskCompleted: (id: number) =>
+    set((state: { tasks: Task[] }) => ({
+      tasks: state.tasks.map((task: Task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    }))
 }));

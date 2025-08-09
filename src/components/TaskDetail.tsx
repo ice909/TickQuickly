@@ -1,23 +1,31 @@
-import { useEditingStore } from '@/store/editing';
-import { useTaskStore } from '@/store/task';
+import {useEditingStore} from '@/store/editing';
+import {useTaskStore} from '@/store/task';
 import TagIcon from '@/assets/icons/tag.svg';
 import CloseIcon from '@/assets/icons/close.svg';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
+import {Checkbox} from '@/components/ui/checkbox';
+import {Input} from '@/components/ui/input';
+import {Tiptap} from "@/components/TipTap.tsx";
 
 export function TaskDetail() {
-  const { editingTaskId, exitEditing } = useEditingStore();
+  const {editingTaskId, exitEditing} = useEditingStore();
+  const { saveTaskToDB } = useTaskStore();
   const task = useTaskStore((state) =>
     state.tasks.find((task) => task.id === editingTaskId)
   );
-  const { toggleTaskCompleted } = useTaskStore();
+  const {toggleTaskCompleted} = useTaskStore();
+
+  function hdlBlur() {
+    if (editingTaskId) {
+      saveTaskToDB(editingTaskId);
+    }
+  }
 
   function renderEmptyState() {
     return (
       <div className="flex-1 flex items-center justify-center bg-muted/30">
         <div className="text-center space-y-3">
           <div className="w-16 h-16 mx-auto bg-muted rounded-full flex items-center justify-center">
-            <img src={TagIcon} className="w-8 h-8 text-muted-foreground" />
+            <img src={TagIcon} className="w-8 h-8 text-muted-foreground"/>
           </div>
           <div>
             <div className="font-medium text-foreground">选择一个任务</div>
@@ -39,7 +47,7 @@ export function TaskDetail() {
             className="inline-flex justify-center items-center h-8 w-8 p-0 hover:bg-muted rounded-md cursor-pointer"
             onClick={exitEditing}
           >
-            <img src={CloseIcon} className="w-4 h-4 text-muted-foreground" />
+            <img src={CloseIcon} className="w-4 h-4 text-muted-foreground"/>
           </button>
         </div>
         <div className='flex items-center gap-3'>
@@ -53,11 +61,16 @@ export function TaskDetail() {
             task.title = e.target.value;
             useTaskStore.setState((state) => ({
               tasks: state.tasks.map((t) =>
-                t.id === task.id ? { ...t, title: e.target.value } : t
+                t.id === task.id ? {...t, title: e.target.value} : t
               )
             }));
-          }} />
+          }}
+          onBlur={hdlBlur}/>
         </div>
+      </div>
+      <div className="p-5">
+        <h2>详情描述</h2>
+        <Tiptap content={task.content} contentUpdate={(content) => task.content = content} onBlur={hdlBlur}/>
       </div>
     </div>
   ) : (

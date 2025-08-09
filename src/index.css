@@ -1,14 +1,15 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
 /* * {
   box-sizing: border-box;
 } */
 
-html,body {
-  padding: 0;
+@layer utilities {
+  .bg-custom-mixed {
+    background-color: color-mix(in oklab, var(--muted) 50%, transparent);
+  }
 }
-
-@import "tailwindcss";
-
-@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 

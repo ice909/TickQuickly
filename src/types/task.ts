@@ -2,7 +2,7 @@ export interface Task {
     id: string;
     parentId: string;
     title: string;
-    content?: string;
+    content: string;
     completed?: boolean;
     createdAt?: string;
     updatedAt?: string;

@@ -5,10 +5,13 @@ import CloseIcon from '@/assets/icons/close.svg';
 import {Checkbox} from '@/components/ui/checkbox';
 import {Input} from '@/components/ui/input';
 import {Tiptap} from "@/components/TipTap.tsx";
+import {Separator} from "@/components/ui/separator.tsx";
+import {Button} from "@/components/ui/button.tsx";
+import {Plus} from "lucide-react";
 
 export function TaskDetail() {
   const {editingTaskId, exitEditing} = useEditingStore();
-  const { saveTaskToDB } = useTaskStore();
+  const {saveTaskToDB} = useTaskStore();
   const task = useTaskStore((state) =>
     state.tasks.find((task) => task.id === editingTaskId)
   );
@@ -39,15 +42,15 @@ export function TaskDetail() {
   }
 
   return task ? (
-    <div className="flex-1">
-      <div className="w-full flex flex-col justify-between gap-[14px] p-5 border-b-1 border-b-solid border-b-border">
+    <div className="flex-1 p-5">
+      <div className="w-full flex flex-col justify-between gap-[14px] pb-5 border-b-1 border-b-solid border-b-border">
         <div className="w-full flex justify-between items-center">
           <h2>任务详情</h2>
           <button
             className="inline-flex justify-center items-center h-8 w-8 p-0 hover:bg-muted rounded-md cursor-pointer"
             onClick={exitEditing}
           >
-            <img src={CloseIcon} className="w-4 h-4 text-muted-foreground"/>
+            <img src={CloseIcon} className="w-4 h-4 text-muted-foreground" alt="close" />
           </button>
         </div>
         <div className='flex items-center gap-3'>
@@ -65,12 +68,22 @@ export function TaskDetail() {
               )
             }));
           }}
-          onBlur={hdlBlur}/>
+                 onBlur={hdlBlur}/>
         </div>
       </div>
-      <div className="p-5">
-        <h2>详情描述</h2>
-        <Tiptap content={task.content} contentUpdate={(content) => task.content = content} onBlur={hdlBlur}/>
+      <h2 className="pt-5">详情描述</h2>
+      <Tiptap content={task.content} contentUpdate={(content) => task.content = content} onBlur={hdlBlur}/>
+      <Separator className="my-5" />
+      <div className="flex items-center justify-between">
+        <h4>子任务</h4>
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-2"
+        >
+          <Plus className="w-4 h-4" />
+          添加子任务
+        </Button>
       </div>
     </div>
   ) : (

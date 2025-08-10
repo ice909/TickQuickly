@@ -1,23 +1,28 @@
-import { Checkbox } from "@/components/ui/checkbox"
-import { useEditingStore } from '@/store/editing';
-import { useTaskStore } from '@/store/task';
-import type { Task } from '@/store/task';
-import { motion } from 'framer-motion';
+import {Checkbox} from '@/components/ui/checkbox';
+import {useEditingStore} from '@/store/editing';
+import {useTaskStore} from '@/store/task';
+import type {Task} from '@/types/task';
+import {useSortable} from '@dnd-kit/sortable';
+import {CSS} from '@dnd-kit/utilities';
 
 interface TaskItemProps {
-	task: Task;
+  task: Task;
 }
 
-export function TaskItem({ task }: TaskItemProps) {
-	const { toggleTaskCompleted } = useTaskStore();
-  const { editingTaskId, setEditingTaskId } = useEditingStore();
-	return (
-    <motion.div
-      layout
-      animate={{ opacity: 1 }}
-      initial={{ opacity: 0 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
+export function TaskItem({task}: TaskItemProps) {
+  const {toggleTaskCompleted} = useTaskStore();
+  const {editingTaskId, setEditingTaskId} = useEditingStore();
+  const {attributes, listeners, setNodeRef, transform, transition} =
+    useSortable({id: task.id});
+  const style = {
+    transform: CSS.Translate.toString(transform),
+    transition,
+  };
+  return (
+    <div
+      id={task.id}
+      ref={setNodeRef}
+      style={style}
       data-task-id={task.id}
       className={`cursor-pointer transition-colors ${
         editingTaskId === task.id
@@ -27,6 +32,8 @@ export function TaskItem({ task }: TaskItemProps) {
       onClick={() => {
         setEditingTaskId(task.id);
       }}
+      {...attributes}
+      {...listeners}
     >
       <div className="flex items-center gap-3 p-3 hover:bg-accent/50 border-b border-b-solid border-b-border/50">
         <Checkbox
@@ -43,6 +50,6 @@ export function TaskItem({ task }: TaskItemProps) {
           {task.title}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
